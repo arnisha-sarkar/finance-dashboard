@@ -1,11 +1,6 @@
 "use client";
 
-import React from "react";
-
-interface SidebarProps {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-}
+import { SidebarProps } from "@/types/layout";
 
 const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const menuItems = ["Dashboard", "Transactions", "Insights", "Settings"];

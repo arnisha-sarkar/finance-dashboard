@@ -1,11 +1,7 @@
 "use client";
 
+import { TopbarProps } from "@/types/layout";
 import React, { useState } from "react";
-
-// Sidebar open korar jonno amra eikhane 'onMenuClick' prop nibo
-interface TopbarProps {
-  onMenuClick: () => void;
-}
 
 const Topbar = ({ onMenuClick }: TopbarProps) => {
   const [role, setRole] = useState<"Admin" | "Viewer">("Admin");
