@@ -1,10 +1,13 @@
-"use client"; // ইন্টারঅ্যাক্টিভিটির জন্য এটি লাগবেই
+"use client";
 
 import { useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Topbar from "@/components/Topbar";
-import Sidebar from "@/components/Sidebar";
+
+import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
+import Topbar from "@/components/layout/Topbar";
+import { Toaster } from "react-hot-toast";
+import { DashboardProvider } from "@/context/DashboardContext"; // শুধু এটিই লাগবে
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // ১. সাইডবার ওপেন/ক্লোজ করার জন্য স্টেট
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -29,20 +31,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full bg-background`}
       >
-        <div className="flex h-screen w-full overflow-hidden">
-          {/* ২. Sidebar-এ স্টেট পাস করছি */}
-          <Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
+        {/* ১. DashboardProvider-কে সবার উপরে দিন যাতে Sidebar এবং Topbar এর ডাটা পায় */}
+        <DashboardProvider>
+          <div className="flex h-screen w-full overflow-hidden">
+            {/* এখন Sidebar এর ভেতর useDashboard() কাজ করবে */}
+            <Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
 
-          <div className="flex flex-1 flex-col min-w-0">
-            {/* ৩. Topbar-এ মেনু ওপেন করার ফাংশন পাস করছি */}
-            <Topbar onMenuClick={() => setSidebarOpen(true)} />
+            <div className="flex flex-1 flex-col min-w-0">
+              {/* এখন Topbar এর ভেতর useDashboard() কাজ করবে */}
+              <Topbar onMenuClick={() => setSidebarOpen(true)} />
 
-            {/* মেইন কন্টেন্ট এরিয়া */}
-            <main className="flex-1 overflow-y-auto p-4 lg:p-8">
-              {children}
-            </main>
+              {/* মেইন কন্টেন্ট এরিয়া */}
+              <main className="flex-1 overflow-y-auto p-4 lg:p-8">
+                <Toaster position="top-right" reverseOrder={false} />
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </DashboardProvider>
       </body>
     </html>
   );

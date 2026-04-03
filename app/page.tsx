@@ -1,56 +1,113 @@
-// app/page.tsx
+// "use client";
+
+// import React, { useState } from "react";
+// import Sidebar from "@/components/Sidebar";
+// import SummarySection from "@/components/dashboard/SummarySection";
+// import BalanceChart from "@/components/dashboard/BalanceChart";
+// import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
+
+// import {
+//   balanceHistory,
+//   expenseByCategoryData,
+//   summaryMockData,
+//   transactions,
+// } from "@/data/mockData";
+
+// export default function Home() {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [activeTab, setActiveTab] = useState("Dashboard");
+
+//   return (
+//     <div className="flex min-h-screen bg-gray-50/50">
+//       <main className="flex-1 p-4 md:p-8 overflow-x-hidden max-w-7xl mx-auto">
+//         {/* Mobile Header */}
+//         <div className="lg:hidden mb-6 flex justify-between items-center bg-white p-4 rounded-2xl border border-border-custom shadow-sm">
+//           <h2 className="font-bold text-primary italic">Finance Dash</h2>
+//           <button
+//             onClick={() => setIsOpen(true)}
+//             className="p-2 bg-primary/10 rounded-xl px-4 font-bold text-primary"
+//           >
+//             Menu
+//           </button>
+//         </div>
+
+//         {/* No Transition Container */}
+//         <div>
+//           {/* Dashboard Tab */}
+//           {activeTab === "Dashboard" && (
+//             <div className="space-y-8">
+//               <h2 className="text-2xl md:text-3xl font-bold italic text-foreground">
+//                 Overview
+//               </h2>
+//               <SummarySection data={summaryMockData} />
+//               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+//                 <div className="lg:col-span-2">
+//                   <BalanceChart data={balanceHistory} />
+//                 </div>
+//                 <div className="lg:col-span-1">
+//                   <ExpensePieChart data={expenseByCategoryData} />
+//                 </div>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+//       </main>
+//     </div>
+//   );
+// }
+
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+
 import SummarySection from "@/components/dashboard/SummarySection";
 import BalanceChart from "@/components/dashboard/BalanceChart";
 import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
+
+// ডাটা ইম্পোর্ট
 import {
-  summaryMockData,
   balanceHistory,
   expenseByCategoryData,
+  summaryMockData,
+  transactions,
 } from "@/data/mockData";
+import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
+import TransactionTable from "./transactions/page";
 
-const Home = () => {
+export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("Dashboard"); // ডিফল্ট ট্যাব
+
   return (
-    <main className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8 max-w-7xl mx-auto">
-      {/* ১. হেডার সেকশন */}
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
-          Financial Dashboard
-        </h1>
-        <p className="text-gray-500 text-sm md:text-base font-medium">
-          Welcome back! Here&apos;s what&apos;s happening with your money.
-        </p>
-      </div>
+    <div className="flex min-h-screen bg-gray-50/50">
+      <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto">
+        {/* ২. কন্ডিশনাল রেন্ডারিং - এখানে ম্যাজিকটা হয় */}
 
-      {/* ২. সামারি কার্ড সেকশন */}
-      <section>
-        <SummarySection data={summaryMockData} />
-      </section>
+        {/* যদি activeTab 'Dashboard' হয় তবেই এগুলো দেখাবে */}
+        {activeTab === "Dashboard" && (
+          <div className="space-y-8">
+            <h2 className="text-2xl font-bold italic">Overview</h2>
+            <SummarySection data={summaryMockData} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2">
+                <BalanceChart data={balanceHistory} />
+              </div>
+              <div className="lg:col-span-1">
+                <ExpensePieChart data={expenseByCategoryData} />
+              </div>
+            </div>
+          </div>
+        )}
 
-      {/* ৩. চার্ট সেকশন - গ্রিড লেআউট */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* ব্যালেন্স লাইন চার্ট - এটি ২ কলাম জায়গা নিবে */}
-        <section className="lg:col-span-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <BalanceChart data={balanceHistory} title="Balance Over Time" />
-        </section>
-
-        {/* এক্সপেন্স পাই চার্ট - এটি ১ কলাম জায়গা নিবে */}
-        <section className="lg:col-span-1 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <ExpensePieChart
-            data={expenseByCategoryData}
-            title="Expense Breakdown"
-          />
-        </section>
-      </div>
-
-      {/* ৪. ট্রানজ্যাকশন টেবিল (ভবিষ্যতের জন্য) */}
-      {/* <section className="w-full">
-          <TransactionTable />
-      </section> */}
-    </main>
+        {/* যদি activeTab 'Transactions' হয় তবে শুধু টেবিল দেখাবে */}
+        {activeTab === "Transactions" && (
+          <div className="space-y-8">
+            <h2 className="text-2xl font-bold italic">All Transactions</h2>
+            {/* ডাটা শুধুমাত্র এখানেই পাস করা হয়েছে */}
+            <TransactionTable data={transactions} />
+          </div>
+        )}
+      </main>
+    </div>
   );
-};
-
-export default Home;
+}

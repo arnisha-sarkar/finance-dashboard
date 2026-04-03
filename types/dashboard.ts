@@ -40,10 +40,12 @@ export interface ExpensePieChartProps {
   title?: string;
 }
 
+// src/types/dashboard.ts
 export interface Transaction {
   id: string;
   date: string;
   amount: number;
   category: string;
   type: "income" | "expense";
+  description: string;
 }

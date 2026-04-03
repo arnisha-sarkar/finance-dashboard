@@ -7,24 +7,6 @@ export const summaryMockData: SummaryData = {
   totalExpense: 7500,
 };
 
-export const transactionsMockData: Transaction[] = [
-  {
-    id: "1",
-    date: "2026-04-01",
-    amount: 5000,
-    category: "Salary",
-    type: "income",
-  },
-  {
-    id: "2",
-    date: "2026-04-02",
-    amount: 150,
-    category: "Food",
-    type: "expense",
-  },
-  // Aro kisu data add koro...
-];
-
 // src/data/mockData.ts
 import { ChartDataPoint } from "@/types/dashboard";
 
@@ -47,4 +29,48 @@ export const expenseByCategoryData: ExpenseCategoryData[] = [
   { name: "Shopping", value: 4500, color: "#d33451" }, // Rose
   { name: "Travel", value: 1200, color: "#ca8a04" }, // Yellow
   { name: "Bills", value: 3800, color: "#9333ea" }, // Purple
+];
+
+// src/data/mockData.ts
+export const transactions: Transaction[] = [
+  {
+    id: "1",
+    date: "2026-04-01",
+    amount: 2500,
+    category: "Salary",
+    type: "income",
+    description: "Monthly Salary",
+  },
+  {
+    id: "2",
+    date: "2026-04-02",
+    amount: 150,
+    category: "Food",
+    type: "expense",
+    description: "Lunch at Cafe",
+  },
+  {
+    id: "3",
+    date: "2026-04-03",
+    amount: 1200,
+    category: "Rent",
+    type: "expense",
+    description: "April House Rent",
+  },
+  {
+    id: "4",
+    date: "2026-04-03",
+    amount: 500,
+    category: "Freelance",
+    type: "income",
+    description: "Project Bonus",
+  },
+  {
+    id: "5",
+    date: "2026-04-04",
+    amount: 80,
+    category: "Shopping",
+    type: "expense",
+    description: "New T-shirt",
+  },
 ];
