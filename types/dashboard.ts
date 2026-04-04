@@ -42,7 +42,7 @@ export interface ExpensePieChartProps {
 
 // src/types/dashboard.ts
 export interface Transaction {
-  id: string;
+  id: string | number;
   date: string;
   amount: number;
   category: string;

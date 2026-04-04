@@ -83,7 +83,6 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const menuItems = [
     { name: "Dashboard", path: "/" },
     { name: "Transactions", path: "/transactions" },
-    { name: "Insights", path: "/insights" },
     { name: "Settings", path: "/settings" },
   ];
 

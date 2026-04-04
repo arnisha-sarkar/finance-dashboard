@@ -1,19 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TransactionTable from "@/components/dashboard/TransactionTable";
-// ১. useDashboard ইম্পোর্ট করুন
 import { useDashboard } from "@/context/DashboardContext";
-import { PlusCircle, X } from "lucide-react";
-import toast from "react-hot-toast";
+import { PlusCircle } from "lucide-react";
+import AddTransactionModal from "@/components/dashboard/AddTransactionModal"; // ইম্পোর্ট করুন
+
+// ডাটা এবং স্কেলিটন ইম্পোর্ট
+import { transactions as mockData } from "@/data/mockData";
+import { SkeletonTable } from "@/components/dashboard/SkeletonCard";
 
 const TransactionPage = () => {
-  // ২. useRole() এর বদলে useDashboard() ব্যবহার করুন এবং transactions ডাটা এখান থেকেই নিন
-  const { role, transactions, addTransaction } = useDashboard();
+  const {
+    role,
+    transactions: contextTransactions,
+    addTransaction,
+  } = useDashboard();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ডাটা ডিসপ্লে লজিক
+  const displayData =
+    contextTransactions && contextTransactions.length > 0
+      ? contextTransactions
+      : mockData;
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6 relative">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6 relative animate-in fade-in duration-500">
       {/* হেডার সেকশন */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
@@ -38,91 +56,23 @@ const TransactionPage = () => {
 
       {/* টেবিল সেকশন */}
       <div className="w-full">
-        {/* ৩. আলাদা mockData ইম্পোর্ট না করে context এর transactions ব্যবহার করুন */}
-        <TransactionTable data={transactions} />
+        {isLoading ? (
+          <SkeletonTable />
+        ) : displayData.length > 0 ? (
+          <TransactionTable data={displayData} />
+        ) : (
+          <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
+            <p className="text-gray-500">No transactions found.</p>
+          </div>
+        )}
       </div>
 
-      {/* Add Transaction Modal UI */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl animate-in fade-in zoom-in duration-200">
-            <div className="p-6 border-b flex justify-between items-center bg-gray-50/50 rounded-t-3xl">
-              <h2 className="font-bold text-lg uppercase italic tracking-tight">
-                New Transaction
-              </h2>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="p-1 hover:bg-gray-200 rounded-full transition-colors"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <form
-              className="p-6 space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setIsModalOpen(false);
-
-                // ৪. প্রফেশনাল টোস্ট মেসেজ
-                toast.success("Transaction added successfully!", {
-                  duration: 3000,
-                  position: "top-right",
-                  style: {
-                    borderRadius: "12px",
-                    background: "#1f2937",
-                    color: "#fff",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                  },
-                });
-              }}
-            >
-              <div>
-                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">
-                  Description
-                </label>
-                <input
-                  type="text"
-                  placeholder="Salary, Rent, Food..."
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black transition-all text-black"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">
-                    Amount
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black transition-all text-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">
-                    Type
-                  </label>
-                  <select className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black transition-all cursor-pointer font-medium text-black">
-                    <option value="income">Income</option>
-                    <option value="expense">Expense</option>
-                  </select>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-black text-white py-4 rounded-2xl font-bold uppercase tracking-widest hover:bg-gray-800 transition-all mt-4 shadow-lg shadow-black/10"
-              >
-                Save Transaction
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* --- আলাদা কম্পোনেন্ট হিসেবে মোডাল --- */}
+      <AddTransactionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={addTransaction}
+      />
     </div>
   );
 };

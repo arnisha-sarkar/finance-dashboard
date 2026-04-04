@@ -1,56 +1,224 @@
+// // // "use client";
+
+// // // import React, { useState } from "react";
+
+// // // import SummarySection from "@/components/dashboard/SummarySection";
+// // // import BalanceChart from "@/components/dashboard/BalanceChart";
+// // // import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
+
+// // // // ডাটা ইম্পোর্ট
+// // // import {
+// // //   balanceHistory,
+// // //   expenseByCategoryData,
+// // //   summaryMockData,
+// // //   transactions,
+// // // } from "@/data/mockData";
+// // // import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
+// // // import TransactionTable from "./transactions/page";
+
+// // // export default function Home() {
+// // //   const [isOpen, setIsOpen] = useState(false);
+// // //   const [activeTab, setActiveTab] = useState("Dashboard"); // ডিফল্ট ট্যাব
+
+// // //   return (
+// // //     <div className="flex min-h-screen bg-gray-50/50">
+// // //       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto">
+// // //         {/* ২. কন্ডিশনাল রেন্ডারিং - এখানে ম্যাজিকটা হয় */}
+
+// // //         {/* যদি activeTab 'Dashboard' হয় তবেই এগুলো দেখাবে */}
+// // //         {activeTab === "Dashboard" && (
+// // //           <div className="space-y-8">
+// // //             <h2 className="text-2xl font-bold italic">Overview</h2>
+// // //             <SummarySection data={summaryMockData} />
+// // //             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+// // //               <div className="lg:col-span-2">
+// // //                 <BalanceChart data={balanceHistory} />
+// // //               </div>
+// // //               <div className="lg:col-span-1">
+// // //                 <ExpensePieChart data={expenseByCategoryData} />
+// // //               </div>
+// // //             </div>
+// // //           </div>
+// // //         )}
+
+// // //         {/* যদি activeTab 'Transactions' হয় তবে শুধু টেবিল দেখাবে */}
+// // //         {activeTab === "Transactions" && (
+// // //           <div className="space-y-8">
+// // //             <h2 className="text-2xl font-bold italic">All Transactions</h2>
+// // //             {/* ডাটা শুধুমাত্র এখানেই পাস করা হয়েছে */}
+// // //             <TransactionTable data={transactions} />
+// // //           </div>
+// // //         )}
+// // //       </main>
+// // //     </div>
+// // //   );
+// // // }
+
+// // "use client";
+
+// // import React, { useState, useEffect } from "react"; // useEffect যোগ করা হয়েছে
+// // import SummarySection from "@/components/dashboard/SummarySection";
+// // import BalanceChart from "@/components/dashboard/BalanceChart";
+// // import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
+
+// // // ডাটা ইম্পোর্ট
+// // import {
+// //   balanceHistory,
+// //   expenseByCategoryData,
+// //   summaryMockData,
+// //   transactions,
+// // } from "@/data/mockData";
+// // import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
+// // import TransactionTable from "./transactions/page";
+// // import { SkeletonCard } from "@/components/dashboard/SkeletonCard";
+
+// // export default function Home() {
+// //   const [isOpen, setIsOpen] = useState(false);
+// //   const [activeTab, setActiveTab] = useState("Dashboard");
+// //   const [isLoading, setIsLoading] = useState(true); // লোডিং স্টেট
+
+// //   // ডেমো লোডিং ইফেক্ট (১.৫ সেকেন্ডের জন্য)
+// //   useEffect(() => {
+// //     const timer = setTimeout(() => {
+// //       setIsLoading(false);
+// //     }, 1500);
+// //     return () => clearTimeout(timer);
+// //   }, []);
+
+// //   return (
+// //     <div className="flex min-h-screen bg-gray-50/50">
+// //       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto">
+// //         {/* ড্যাশবোর্ড ট্যাব */}
+// //         {activeTab === "Dashboard" && (
+// //           <div className="space-y-8 animate-in fade-in duration-700">
+// //             <h2 className="text-2xl font-bold italic">Overview</h2>
+
+// //             {/* ১. কন্ডিশনাল রেন্ডারিং - লোডিং হলে স্কেলিটন দেখাবে */}
+// //             {isLoading ? (
+// //               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+// //                 <SkeletonCard />
+// //                 <SkeletonCard />
+// //                 <SkeletonCard />
+// //               </div>
+// //             ) : (
+// //               <SummarySection data={summaryMockData} />
+// //             )}
+
+// //             {/* চার্ট সেকশন */}
+// //             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+// //               <div className="lg:col-span-2">
+// //                 {/* চার্টগুলোও চাইলে isLoading দিয়ে কন্ট্রোল করতে পারেন */}
+// //                 <BalanceChart data={balanceHistory} />
+// //               </div>
+// //               <div className="lg:col-span-1">
+// //                 <ExpensePieChart data={expenseByCategoryData} />
+// //               </div>
+// //             </div>
+// //           </div>
+// //         )}
+
+// //         {/* ট্রানজ্যাকশন ট্যাব */}
+// //         {activeTab === "Transactions" && (
+// //           <div className="space-y-8 animate-in fade-in duration-500">
+// //             <h2 className="text-2xl font-bold italic">All Transactions</h2>
+// //             <TransactionTable data={transactions} />
+// //           </div>
+// //         )}
+// //       </main>
+// //     </div>
+// //   );
+// // }
+
 // "use client";
 
-// import React, { useState } from "react";
-// import Sidebar from "@/components/Sidebar";
+// import React, { useState, useEffect } from "react";
 // import SummarySection from "@/components/dashboard/SummarySection";
 // import BalanceChart from "@/components/dashboard/BalanceChart";
 // import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
 
+// // ডাটা ইম্পোর্ট
 // import {
 //   balanceHistory,
 //   expenseByCategoryData,
 //   summaryMockData,
 //   transactions,
 // } from "@/data/mockData";
+// import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
+// import TransactionTable from "./transactions/page";
+// import {
+//   SkeletonCard,
+//   SkeletonChartLarge,
+//   SkeletonChartRound,
+// } from "@/components/dashboard/SkeletonCard";
+
+// // স্কেলিটন ইম্পোর্ট (নিশ্চিত করুন আপনার ফাইল পাথ সঠিক আছে)
 
 // export default function Home() {
 //   const [isOpen, setIsOpen] = useState(false);
 //   const [activeTab, setActiveTab] = useState("Dashboard");
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   // ১.৫ সেকেন্ডের ডেমো লোডিং
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       setIsLoading(false);
+//     }, 1500);
+//     return () => clearTimeout(timer);
+//   }, []);
 
 //   return (
 //     <div className="flex min-h-screen bg-gray-50/50">
-//       <main className="flex-1 p-4 md:p-8 overflow-x-hidden max-w-7xl mx-auto">
-//         {/* Mobile Header */}
-//         <div className="lg:hidden mb-6 flex justify-between items-center bg-white p-4 rounded-2xl border border-border-custom shadow-sm">
-//           <h2 className="font-bold text-primary italic">Finance Dash</h2>
-//           <button
-//             onClick={() => setIsOpen(true)}
-//             className="p-2 bg-primary/10 rounded-xl px-4 font-bold text-primary"
-//           >
-//             Menu
-//           </button>
-//         </div>
+//       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto">
+//         {/* Dashboard Tab */}
+//         {activeTab === "Dashboard" && (
+//           <div className="space-y-8 animate-in fade-in duration-700">
+//             <h2 className="text-2xl font-bold italic">Overview</h2>
 
-//         {/* No Transition Container */}
-//         <div>
-//           {/* Dashboard Tab */}
-//           {activeTab === "Dashboard" && (
-//             <div className="space-y-8">
-//               <h2 className="text-2xl md:text-3xl font-bold italic text-foreground">
-//                 Overview
-//               </h2>
+//             {/* ১. Summary Section Skeleton */}
+//             {isLoading ? (
+//               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//                 <SkeletonCard />
+//                 <SkeletonCard />
+//                 <SkeletonCard />
+//               </div>
+//             ) : (
 //               <SummarySection data={summaryMockData} />
-//               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-//                 <div className="lg:col-span-2">
+//             )}
+
+//             {/* ২. Charts Section Skeletons */}
+//             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+//               {/* Balance Chart */}
+//               <div className="lg:col-span-2">
+//                 <h3 className="text-lg font-semibold mb-4">Balance History</h3>
+//                 {isLoading ? (
+//                   <SkeletonChartLarge />
+//                 ) : (
 //                   <BalanceChart data={balanceHistory} />
-//                 </div>
-//                 <div className="lg:col-span-1">
+//                 )}
+//               </div>
+
+//               {/* Expense Pie Chart */}
+//               <div className="lg:col-span-1">
+//                 <h3 className="text-lg font-semibold mb-4">
+//                   Expense by Category
+//                 </h3>
+//                 {isLoading ? (
+//                   <SkeletonChartRound />
+//                 ) : (
 //                   <ExpensePieChart data={expenseByCategoryData} />
-//                 </div>
+//                 )}
 //               </div>
 //             </div>
-//           )}
-//         </div>
+//           </div>
+//         )}
+
+//         {/* Transactions Tab */}
+//         {activeTab === "Transactions" && (
+//           <div className="space-y-8 animate-in fade-in duration-500">
+//             <h2 className="text-2xl font-bold italic">All Transactions</h2>
+//             <TransactionTable data={transactions} />
+//           </div>
+//         )}
 //       </main>
 //     </div>
 //   );
@@ -58,8 +226,7 @@
 
 "use client";
 
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import SummarySection from "@/components/dashboard/SummarySection";
 import BalanceChart from "@/components/dashboard/BalanceChart";
 import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
@@ -69,42 +236,101 @@ import {
   balanceHistory,
   expenseByCategoryData,
   summaryMockData,
-  transactions,
+  transactions as mockTransactions, // নাম পরিবর্তন করে নিলাম কনফ্লিক্ট এড়াতে
 } from "@/data/mockData";
-import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
+
 import TransactionTable from "./transactions/page";
+import {
+  SkeletonCard,
+  SkeletonChartLarge,
+  SkeletonChartRound,
+} from "@/components/dashboard/SkeletonCard";
+import { useDashboard } from "@/context/DashboardContext"; // ২. Context ইম্পোর্ট করুন
+import Insights from "@/components/Insights";
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Dashboard"); // ডিফল্ট ট্যাব
+  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ৩. Context থেকে রিয়েল ট্রানজ্যাকশন ডাটা নিন
+  const { transactions: contextTransactions } = useDashboard();
+  const displayTransactions =
+    contextTransactions.length > 0 ? contextTransactions : mockTransactions;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-50/50">
       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto">
-        {/* ২. কন্ডিশনাল রেন্ডারিং - এখানে ম্যাজিকটা হয় */}
-
-        {/* যদি activeTab 'Dashboard' হয় তবেই এগুলো দেখাবে */}
+        {/* Dashboard Tab */}
         {activeTab === "Dashboard" && (
-          <div className="space-y-8">
+          <div className="space-y-8 animate-in fade-in duration-700">
             <h2 className="text-2xl font-bold italic">Overview</h2>
-            <SummarySection data={summaryMockData} />
+
+            {/* ১. Summary Section */}
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </div>
+            ) : (
+              <SummarySection data={summaryMockData} />
+            )}
+
+            {/* ২. Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
-                <BalanceChart data={balanceHistory} />
+                <h3 className="text-lg font-semibold mb-4 italic uppercase tracking-tight">
+                  Balance History
+                </h3>
+                {isLoading ? (
+                  <SkeletonChartLarge />
+                ) : (
+                  <BalanceChart data={balanceHistory} />
+                )}
               </div>
+
               <div className="lg:col-span-1">
-                <ExpensePieChart data={expenseByCategoryData} />
+                <h3 className="text-lg font-semibold mb-4 italic uppercase tracking-tight">
+                  Expense by Category
+                </h3>
+                {isLoading ? (
+                  <SkeletonChartRound />
+                ) : (
+                  <ExpensePieChart data={expenseByCategoryData} />
+                )}
               </div>
+            </div>
+
+            {/* ৩. Financial Insights Section (নতুন যোগ করা হয়েছে) */}
+            <div className="pt-4">
+              <h3 className="text-lg font-semibold mb-4 italic uppercase tracking-tight">
+                Financial Insights
+              </h3>
+              {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <SkeletonCard />
+                  <SkeletonCard />
+                  <SkeletonCard />
+                </div>
+              ) : (
+                <Insights transactions={displayTransactions} />
+              )}
             </div>
           </div>
         )}
 
-        {/* যদি activeTab 'Transactions' হয় তবে শুধু টেবিল দেখাবে */}
+        {/* Transactions Tab */}
         {activeTab === "Transactions" && (
-          <div className="space-y-8">
+          <div className="space-y-8 animate-in fade-in duration-500">
             <h2 className="text-2xl font-bold italic">All Transactions</h2>
-            {/* ডাটা শুধুমাত্র এখানেই পাস করা হয়েছে */}
-            <TransactionTable data={transactions} />
+            <TransactionTable data={displayTransactions} />
           </div>
         )}
       </main>
