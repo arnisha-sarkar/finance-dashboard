@@ -1,20 +1,12 @@
 "use client";
 
+import { Transaction } from "@/types/dashboard";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-// ১. টাইপ ডিফাইন করা
+// 1. Type Definitions
 type Role = "Admin" | "Viewer";
 
-export interface Transaction {
-  // export করুন যাতে অন্য পেজেও টাইপটি পান
-  id: string;
-  amount: number;
-  date: string;
-  description: string;
-  category: string;
-}
-
-// ফিল্টারের জন্য একটি টাইপ দিন
+// Defining a specific type for filters instead of 'any'
 interface FilterType {
   search: string;
   category: string;
@@ -23,25 +15,25 @@ interface FilterType {
 interface DashboardContextType {
   transactions: Transaction[];
   role: Role;
-  filters: FilterType; // any এর বদলে FilterType
+  filters: FilterType;
   setRole: (role: Role) => void;
   setFilters: (filters: FilterType) => void;
-  setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>; // ট্রানজ্যাকশন আপডেট করার জন্য
+  setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>; // To update transaction list globally
 }
 
-// ২. কনটেক্সট তৈরি
+// 2. Create Context
 const DashboardContext = createContext<DashboardContextType | undefined>(
   undefined,
 );
 
-// ৩. প্রোভাইডার কম্পোনেন্ট
+// 3. Provider Component
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [role, setRole] = useState<Role>("Viewer");
   const [filters, setFilters] = useState<FilterType>({
     search: "",
     category: "All",
-  }); // ডিফল্ট ভ্যালু দিন
+  }); // Providing default initial values
 
   return (
     <DashboardContext.Provider
@@ -59,7 +51,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// ৪. কাস্টম হুক
+// 4. Custom Hook for easy access
 export const useDashboard = () => {
   const context = useContext(DashboardContext);
   if (!context) {

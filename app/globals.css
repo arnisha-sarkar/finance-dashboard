@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ১. ডিফল্ট (Light Mode) ভেরিয়েবল */
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
@@ -7,6 +8,19 @@
   --success: #10b981;
   --danger: #ef4444;
   --border-custom: #e2e8f0;
+  --card-bg: #ffffff; /* লাইট মোডে কার্ডের ব্যাকগ্রাউন্ড */
+}
+
+/* ২. ডার্ক মোড (Dark Mode) ভেরিয়েবল */
+/* যখন <html> ট্যাগে 'dark' ক্লাস থাকবে তখন এই কালারগুলো কাজ করবে */
+.dark {
+  --background: #020617; /* গাঢ় নীলচে কালো */
+  --foreground: #f8fafc;
+  --primary: #3b82f6;
+  --success: #10b981;
+  --danger: #ef4444;
+  --border-custom: #1e293b;
+  --card-bg: #0f172a; /* ডার্ক মোডে কার্ডের ব্যাকগ্রাউন্ড */
 }
 
 @theme inline {
@@ -16,9 +30,17 @@
   --color-success: var(--success);
   --color-danger: var(--danger);
   --color-border-custom: var(--border-custom);
+  --color-card-bg: var(--card-bg);
 }
 
+/* ৩. গ্লোবাল স্টাইল */
 body {
   background-color: var(--background);
   color: var(--foreground);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease; /* স্মুথ ট্রানজিশন */
 }
+
+/* এটি না থাকলে Tailwind আপনার .dark ক্লাসটি চিনবে না */
+@variant dark (&:where(.dark, .dark *));

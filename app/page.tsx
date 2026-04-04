@@ -20,7 +20,7 @@ import {
   SkeletonChartRound,
 } from "@/components/dashboard/SkeletonCard";
 import { useDashboard } from "@/context/DashboardContext"; // ২. Context ইম্পোর্ট করুন
-import Insights from "@/components/Insights";
+import Insights from "@/components/dashboard/TableRows/Insight/Insights";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -39,7 +39,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-50/50">
+    <div className="flex min-h-screen ">
       <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto">
         {/* Dashboard Tab */}
         {activeTab === "Dashboard" && (

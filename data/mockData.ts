@@ -1,27 +1,13 @@
 // data/mockData.ts
-import { SummaryData, Transaction } from "@/types/dashboard";
+import {
+  SummaryData,
+  Transaction,
+  ChartDataPoint,
+  ExpenseCategoryData,
+  Account, // Ensure these are imported from your central types
+  Budget,
+} from "@/types/dashboard";
 
-export const summaryMockData: SummaryData = {
-  totalBalance: 24500, // Tomar iccha moto set koro
-  totalIncome: 32000,
-  totalExpense: 7500,
-};
-
-// src/data/mockData.ts
-import { ChartDataPoint } from "@/types/dashboard";
-
-export const balanceHistory: ChartDataPoint[] = [
-  { date: "Apr 01", balance: 2500 },
-  { date: "Apr 02", balance: 3100 },
-  { date: "Apr 03", balance: 2800 },
-  { date: "Apr 04", balance: 4200 },
-  { date: "Apr 05", balance: 3900 },
-  { date: "Apr 06", balance: 5000 },
-];
-
-// src/data/mockData.ts
-// ... আগের মক ডেটা থাকবে ...
-import { ExpenseCategoryData } from "@/types/dashboard";
 import {
   Building2,
   CreditCard,
@@ -31,6 +17,33 @@ import {
   Zap,
 } from "lucide-react";
 
+/**
+ * Global Dashboard Summary Stats
+ * Displays total balance, income, and expenses at the top of the dashboard.
+ */
+export const summaryMockData: SummaryData = {
+  totalBalance: 24500,
+  totalIncome: 32000,
+  totalExpense: 7500,
+};
+
+/**
+ * Balance History for Line Chart
+ * Used to visualize the financial growth over a specific period.
+ */
+export const balanceHistory: ChartDataPoint[] = [
+  { date: "Apr 01", balance: 2500 },
+  { date: "Apr 02", balance: 3100 },
+  { date: "Apr 03", balance: 2800 },
+  { date: "Apr 04", balance: 4200 },
+  { date: "Apr 05", balance: 3900 },
+  { date: "Apr 06", balance: 5000 },
+];
+
+/**
+ * Expenses Categorized for Pie/Donut Chart
+ * Represents the distribution of spending across different sectors.
+ */
 export const expenseByCategoryData: ExpenseCategoryData[] = [
   { name: "Food", value: 2500, color: "#2563eb" }, // Blue
   { name: "Rent", value: 8000, color: "#16a34a" }, // Green
@@ -39,7 +52,10 @@ export const expenseByCategoryData: ExpenseCategoryData[] = [
   { name: "Bills", value: 3800, color: "#9333ea" }, // Purple
 ];
 
-// src/data/mockData.ts
+/**
+ * Recent Transaction List
+ * Detailed record of both income and expense activities.
+ */
 export const transactions: Transaction[] = [
   {
     id: "1",
@@ -83,8 +99,11 @@ export const transactions: Transaction[] = [
   },
 ];
 
-// Mock Data for Accounts
-export const accountsData = [
+/**
+ * Linked Bank Accounts and Cards
+ * Data for rendering account-specific cards in the UI.
+ */
+export const accountsData: Account[] = [
   {
     id: 1,
     bankName: "Chase Bank",
@@ -120,8 +139,11 @@ export const accountsData = [
   },
 ];
 
-// Mock Data for Budgets
-export const budgetData = [
+/**
+ * Monthly Budget Allocations
+ * Tracks spending progress against pre-defined limits per category.
+ */
+export const budgetData: Budget[] = [
   {
     id: 1,
     category: "Food & Dining",

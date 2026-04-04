@@ -14,47 +14,66 @@ import { LineChartProps } from "@/types/dashboard";
 
 const BalanceChart = ({ data, title = "Balance Overview" }: LineChartProps) => {
   return (
-    <div className="w-full bg-white p-6 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md">
-      <h3 className="text-lg font-bold text-gray-800 mb-6">{title}</h3>
+    /* ১. bg-card-bg এবং border-border-custom ব্যবহার করে কার্ড ডার্ক করা হয়েছে */
+    <div className="w-full bg-card-bg p-6 rounded-[32px] border border-border-custom shadow-sm transition-all hover:shadow-md duration-300">
+      {/* ২. টাইটেল text-foreground করা হয়েছে */}
+      <h3 className="text-lg font-bold text-foreground mb-6 uppercase italic tracking-tight">
+        {title}
+      </h3>
 
-      {/* ResponsiveContainer চার্টকে সব স্ক্রিনে ফিট করতে সাহায্য করে */}
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
             margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
           >
+            {/* ৩. গ্রিড লাইনের কালার ডার্ক মোডে হালকা করার জন্য opacity এবং ভেরিয়েবল ব্যবহার */}
             <CartesianGrid
               strokeDasharray="3 3"
               vertical={false}
-              stroke="#f0f0f0"
+              stroke="var(--border-custom)"
+              opacity={0.5}
             />
+
+            {/* ৪. XAxis এবং YAxis এর টিক টেক্সট ডার্ক মোডে হালকা ধূসর রাখা হয়েছে */}
             <XAxis
               dataKey="date"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
+              tick={{ fill: "#94a3b8", fontSize: 12 }} // slate-400
               dy={10}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
+              tick={{ fill: "#94a3b8", fontSize: 12 }}
             />
+
+            {/* ৫. Tooltip ডার্ক মোড ফ্রেন্ডলি করা হয়েছে */}
             <Tooltip
               contentStyle={{
-                borderRadius: "12px",
-                border: "none",
-                boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)",
+                backgroundColor: "var(--card-bg)",
+                borderRadius: "16px",
+                border: "1px solid var(--border-custom)",
+                color: "var(--foreground)",
+                boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.3)",
               }}
+              itemStyle={{ color: "var(--foreground)" }}
             />
+
+            {/* ৬. লাইন এবং ডট স্টাইল */}
             <Line
               type="monotone"
               dataKey="balance"
-              stroke="#2563eb" // Blue-600
-              strokeWidth={3}
-              dot={{ r: 4, fill: "#2563eb", strokeWidth: 2, stroke: "#fff" }}
-              activeDot={{ r: 6, strokeWidth: 0 }}
+              stroke="#3b82f6" // উজ্জ্বল নীল যা ডার্ক মোডে ভালো দেখায়
+              strokeWidth={4}
+              dot={{
+                r: 5,
+                fill: "#3b82f6",
+                strokeWidth: 2,
+                stroke: "var(--card-bg)", // ডটের চারপাশের বর্ডার কার্ডের রঙের সাথে মিলবে
+              }}
+              activeDot={{ r: 8, strokeWidth: 0 }}
             />
           </LineChart>
         </ResponsiveContainer>

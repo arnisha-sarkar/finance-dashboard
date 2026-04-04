@@ -11,13 +11,13 @@ import {
 } from "recharts";
 import { ExpensePieChartProps } from "@/types/dashboard";
 
-// কাস্টম টুলটিপ (দেখতে সুন্দর করার জন্য)
+// কাস্টম টুলটিপ (ডার্ক মোড এনাবল করা হয়েছে)
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-        <p className="text-sm font-semibold text-gray-900">{`${payload[0].name}`}</p>
-        <p className="text-sm font-bold text-blue-600">
+      <div className="bg-card-bg p-4 rounded-xl shadow-lg border border-border-custom">
+        <p className="text-sm font-semibold text-foreground">{`${payload[0].name}`}</p>
+        <p className="text-sm font-bold text-blue-500">
           ${payload[0].value.toLocaleString()}
         </p>
       </div>
@@ -31,30 +31,34 @@ const ExpensePieChart = ({
   title = "Expense Breakdown",
 }: ExpensePieChartProps) => {
   return (
-    <div className="w-full bg-white p-6 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md h-[400px] flex flex-col">
-      <h3 className="text-lg font-bold text-gray-800 mb-2">{title}</h3>
+    /* bg-card-bg এবং text-foreground ব্যবহার করা হয়েছে */
+    <div className="w-full bg-card-bg p-6 rounded-[32px] border border-border-custom shadow-sm transition-all hover:shadow-md h-[400px] flex flex-col duration-300">
+      <h3 className="text-lg font-bold text-foreground mb-2 uppercase italic tracking-tight">
+        {title}
+      </h3>
 
-      {/* ResponsiveContainer চার্টকে সব স্ক্রিনে ফিট করতে সাহায্য করে */}
       <div className="w-full flex-1">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
-              cx="50%" // অনুভূমিক কেন্দ্র
-              cy="50%" // উল্লম্ব কেন্দ্র
-              innerRadius={70} // এটি একটি Donut Chart তৈরি করে (বেশি প্রফেশনাল দেখায়)
-              outerRadius={100} // বাইরের ব্যাসার্ধ
-              paddingAngle={5} // স্লাইসগুলোর মধ্যে গ্যাপ
+              cx="50%"
+              cy="50%"
+              innerRadius={70}
+              outerRadius={100}
+              paddingAngle={5}
               dataKey="value"
               nameKey="name"
-              cornerRadius={8} // স্লাইসের কোণাগুলো গোল করার জন্য
-              isAnimationActive={true} // সুন্দর এনিমেশনের জন্য
+              cornerRadius={8}
+              isAnimationActive={true}
             >
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={entry.color} // প্রতিটি ক্যাটাগরির নিজস্ব রঙ
-                  stroke="none" // বাইরের বর্ডার সরিয়ে ফেলা হয়েছে
+                  fill={entry.color}
+                  /* স্লাইসগুলোর মাঝখানের বর্ডার ডার্ক ব্যাকগ্রাউন্ডের সাথে মিলবে */
+                  stroke="var(--card-bg)"
+                  strokeWidth={2}
                 />
               ))}
             </Pie>
@@ -68,8 +72,9 @@ const ExpensePieChart = ({
               iconType="circle"
               iconSize={10}
               wrapperStyle={{ paddingTop: "20px" }}
-              formatter={(value, entry) => (
-                <span className="text-sm text-gray-600 ml-2 font-medium">
+              formatter={(value) => (
+                /* লেজেন্ডের টেক্সট কালার ডার্ক মোডে অ্যাডজাস্ট হবে */
+                <span className="text-sm text-slate-500 dark:text-slate-400 ml-2 font-medium">
                   {value}
                 </span>
               )}
