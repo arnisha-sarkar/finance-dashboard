@@ -71,7 +71,7 @@ const Insights = ({ transactions }: { transactions: any[] }) => {
           </div>
         </div>
         <p className="text-xs text-gray-500 italic">
-          "Try reducing Food expenses to save $50 next month!"
+          "Try reducing Food expenses to save $50 next month!&quot;
         </p>
       </div>
     </div>

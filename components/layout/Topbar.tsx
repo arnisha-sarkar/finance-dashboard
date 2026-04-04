@@ -1,127 +1,87 @@
-// "use client";
-
-// import { TopbarProps } from "@/types/layout";
-// import React, { useState } from "react";
-
-// const Topbar = ({ onMenuClick }: TopbarProps) => {
-//   const [role, setRole] = useState<"Admin" | "Viewer">("Admin");
-
-//   return (
-//     <header className="h-16 bg-white/80 backdrop-blur-md border-b border-border-custom flex items-center justify-between px-4 lg:px-8 sticky top-0 z-10">
-//       <div className="flex items-center gap-4">
-//         {/* Mobile Menu Button - Sudhu mobile e dekhabe (lg:hidden) */}
-//         <button
-//           onClick={onMenuClick}
-//           className="lg:hidden p-2 text-slate-600 hover:bg-background rounded-xl transition-colors"
-//         >
-//           <svg
-//             className="w-6 h-6"
-//             fill="none"
-//             stroke="currentColor"
-//             viewBox="0 0 24 24"
-//           >
-//             <path
-//               strokeLinecap="round"
-//               strokeLinejoin="round"
-//               strokeWidth={2}
-//               d="M4 6h16M4 12h16M4 18h16"
-//             />
-//           </svg>
-//         </button>
-
-//         {/* Page Title */}
-//         <h2 className="font-bold text-foreground tracking-tight text-sm md:text-base">
-//           Overview
-//         </h2>
-//       </div>
-
-//       <div className="flex items-center gap-3 md:gap-4">
-//         <span className="hidden sm:block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-//           Role Mode:
-//         </span>
-
-//         {/* Role Switcher Toggle */}
-//         <div className="bg-background p-1 rounded-full flex items-center shadow-inner border border-border-custom scale-90 md:scale-100">
-//           <button
-//             onClick={() => setRole("Admin")}
-//             className={`px-3 md:px-4 py-1 md:py-1.5 text-[10px] md:text-xs font-bold rounded-full transition-all duration-300 ${
-//               role === "Admin"
-//                 ? "bg-primary text-white shadow-md"
-//                 : "text-slate-500 hover:text-primary"
-//             }`}
-//           >
-//             Admin
-//           </button>
-
-//           <button
-//             onClick={() => setRole("Viewer")}
-//             className={`px-3 md:px-4 py-1 md:py-1.5 text-[10px] md:text-xs font-bold rounded-full transition-all duration-300 ${
-//               role === "Viewer"
-//                 ? "bg-primary text-white shadow-md"
-//                 : "text-slate-500 hover:text-primary"
-//             }`}
-//           >
-//             Viewer
-//           </button>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Topbar;
-
 "use client";
 import React from "react";
-// ১. পুরনো useRole সরিয়ে useDashboard ইম্পোর্ট করুন
 import { useDashboard } from "@/context/DashboardContext";
 import { TopbarProps } from "@/types/layout";
+import { Search, Bell, Menu, Calendar } from "lucide-react";
 
 const Topbar = ({ onMenuClick }: TopbarProps) => {
-  // ২. useRole() এর বদলে useDashboard() ব্যবহার করুন
   const { role, setRole } = useDashboard();
 
-  return (
-    <header className="h-16 bg-white/80 backdrop-blur-md border-b flex items-center justify-between px-4 lg:px-8 sticky top-0 z-10">
-      {/* মোবাইল মেনু বাটন */}
-      <button onClick={onMenuClick} className="lg:hidden p-2">
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
+  const today = new Date().toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
-      {/* Role Switcher */}
-      <div className="flex bg-gray-100 p-1 rounded-full border border-gray-200">
+  return (
+    <header className="h-20 bg-white/80 backdrop-blur-md border-b flex items-center justify-between px-4 lg:px-8 sticky top-0 z-40">
+      {/* বাম পাশ: ওয়েলকাম এবং তারিখ */}
+      <div className="flex items-center gap-4">
         <button
-          onClick={() => setRole("Admin")}
-          className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
-            role === "Admin"
-              ? "bg-primary text-white shadow-sm"
-              : "text-gray-500 hover:text-primary"
-          }`}
+          onClick={onMenuClick}
+          className="lg:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors"
         >
-          Admin
+          <Menu size={24} className="text-gray-600" />
         </button>
-        <button
-          onClick={() => setRole("Viewer")}
-          className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
-            role === "Viewer"
-              ? "bg-primary text-white shadow-sm"
-              : "text-gray-500 hover:text-primary"
-          }`}
-        >
-          Viewer
+
+        <div className="hidden md:flex flex-col">
+          <h1 className="text-sm font-bold text-gray-900 leading-tight">
+            Welcome back, Arnisha!
+          </h1>
+          <div className="flex items-center gap-1.5 text-gray-400">
+            <Calendar size={12} />
+            <span className="text-[11px] font-medium">{today}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ডান পাশ: সব এলিমেন্ট */}
+      <div className="flex items-center gap-2 md:gap-5">
+        <button className="p-2.5 text-gray-500 hover:bg-gray-100 rounded-full transition-all">
+          <Search size={20} />
         </button>
+
+        <div className="flex bg-gray-100 p-1 rounded-full border border-gray-200 scale-90 md:scale-100">
+          <button
+            onClick={() => setRole("Admin")}
+            className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all ${
+              role === "Admin"
+                ? "bg-white text-blue-600 shadow-sm"
+                : "text-gray-500"
+            }`}
+          >
+            Admin
+          </button>
+          <button
+            onClick={() => setRole("Viewer")}
+            className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all ${
+              role === "Viewer"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-500"
+            }`}
+          >
+            Viewer
+          </button>
+        </div>
+
+        <button className="relative p-2.5 text-gray-500 hover:bg-gray-100 rounded-full transition-all hidden sm:block">
+          <Bell size={20} />
+          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+
+        <div className="flex items-center gap-3 pl-3 border-l border-gray-200">
+          <div className="hidden text-right md:block">
+            <p className="text-xs font-bold text-gray-900 leading-none">
+              Arnisha Sarkar
+            </p>
+            <span className="text-[10px] text-blue-600 font-bold uppercase tracking-wider">
+              {role}
+            </span>
+          </div>
+          <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-400 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-lg transform hover:rotate-6 transition-transform">
+            AS
+          </div>
+        </div>
       </div>
     </header>
   );

@@ -49,3 +49,26 @@ export interface Transaction {
   type: "income" | "expense";
   description: string;
 }
+// interface for accounts
+export interface Account {
+  id: number;
+  bankName: string;
+  accountType: string;
+  balance: string;
+  accountNumber: string;
+  change: string;
+  isPositive: boolean;
+  color: string;
+  icon: LucideIcon;
+}
+// interface for budget
+export interface Budget {
+  id: number;
+  category: string;
+  spent: number;
+  limit: number;
+  icon: LucideIcon;
+  color: string;
+  lightColor: string;
+  textColor: string;
+}
