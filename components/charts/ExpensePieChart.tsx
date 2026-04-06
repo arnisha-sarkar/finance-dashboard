@@ -8,17 +8,41 @@ import {
   ResponsiveContainer,
   Legend,
   Tooltip,
+  TooltipProps,
 } from "recharts";
 import { ExpensePieChartProps } from "@/types/dashboard";
+import {
+  ValueType,
+  NameType,
+} from "recharts/types/component/DefaultTooltipContent";
 
-// কাস্টম টুলটিপ (ডার্ক মোড এনাবল করা হয়েছে)
-const CustomTooltip = ({ active, payload }: any) => {
+/**
+ * Custom Tooltip Component
+ * Fixed: Defined a specific interface for the payload to avoid 'any' and resolve TS(2339).
+ * This ensures strict type safety and satisfies ESLint rules.
+ */
+interface TooltipPayload {
+  name: string;
+  value: number;
+  payload: Record<string, unknown>; // Chart-er internal data row-er jonno eta allow kore
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayload[];
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  // Check if the tooltip is active and has data in the payload array
   if (active && payload && payload.length) {
     return (
-      <div className="bg-card-bg p-4 rounded-xl shadow-lg border border-border-custom">
-        <p className="text-sm font-semibold text-foreground">{`${payload[0].name}`}</p>
+      <div className="bg-card-bg p-4 rounded-xl shadow-lg border border-border-custom backdrop-blur-md">
+        <p className="text-sm font-semibold text-foreground italic uppercase">
+          {payload[0].name}
+        </p>
         <p className="text-sm font-bold text-blue-500">
-          ${payload[0].value.toLocaleString()}
+          {/* Format the number with commas for better visual presentation */}$
+          {Number(payload[0].value).toLocaleString()}
         </p>
       </div>
     );
@@ -26,13 +50,17 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
+/**
+ * ExpensePieChart Component
+ * Visualizes the breakdown of expenses in a clean donut chart format.
+ */
 const ExpensePieChart = ({
   data,
   title = "Expense Breakdown",
 }: ExpensePieChartProps) => {
   return (
-    /* bg-card-bg এবং text-foreground ব্যবহার করা হয়েছে */
     <div className="w-full bg-card-bg p-6 rounded-[32px] border border-border-custom shadow-sm transition-all hover:shadow-md h-[400px] flex flex-col duration-300">
+      {/* Chart Heading */}
       <h3 className="text-lg font-bold text-foreground mb-2 uppercase italic tracking-tight">
         {title}
       </h3>
@@ -56,24 +84,25 @@ const ExpensePieChart = ({
                 <Cell
                   key={`cell-${index}`}
                   fill={entry.color}
-                  /* স্লাইসগুলোর মাঝখানের বর্ডার ডার্ক ব্যাকগ্রাউন্ডের সাথে মিলবে */
+                  /* stroke helps in blending the slice gaps with the card background */
                   stroke="var(--card-bg)"
                   strokeWidth={2}
                 />
               ))}
             </Pie>
 
+            {/* Interactive Tooltip Configuration */}
+            {/* Interactive Tooltip Configuration */}
             <Tooltip
-              content={<CustomTooltip />}
+              content={<CustomTooltip />} // এখানে আলাদা করে active বা payload দেওয়ার দরকার নেই
               cursor={{ fill: "transparent" }}
             />
-
+            {/* Chart Legend with dynamic text colors for Dark/Light mode */}
             <Legend
               iconType="circle"
               iconSize={10}
               wrapperStyle={{ paddingTop: "20px" }}
               formatter={(value) => (
-                /* লেজেন্ডের টেক্সট কালার ডার্ক মোডে অ্যাডজাস্ট হবে */
                 <span className="text-sm text-slate-500 dark:text-slate-400 ml-2 font-medium">
                   {value}
                 </span>

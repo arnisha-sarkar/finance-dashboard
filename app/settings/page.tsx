@@ -1,142 +1,71 @@
-// "use client";
-
-// import React from "react";
-// import { useDashboard } from "@/context/DashboardContext";
-// import { User, Shield, LogOut } from "lucide-react";
-// import toast from "react-hot-toast";
-
-// const SettingsPage = () => {
-//   const { role } = useDashboard();
-
-//   const handleSave = () => {
-//     toast.success("Settings updated successfully!", {
-//       style: {
-//         borderRadius: "12px",
-//         background: "#1f2937",
-//         color: "#fff",
-//       },
-//     });
-//   };
-
-//   const handleSignOut = () => {
-//     toast.error("Sign out is disabled in demo mode.");
-//   };
-
-//   return (
-//     <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 animate-in fade-in duration-500">
-//       {/* Page Header */}
-//       <div>
-//         <h1 className="text-3xl font-bold text-gray-900 italic uppercase tracking-tight">
-//           Settings
-//         </h1>
-//         <p className="text-gray-500 text-sm">
-//           Manage your account preferences and security.
-//         </p>
-//       </div>
-
-//       <div className="grid gap-6">
-//         {/* 1. Profile Section */}
-//         <section className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-6">
-//           <div className="flex items-center gap-3 border-b pb-4">
-//             <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
-//               <User size={20} />
-//             </div>
-//             <h2 className="font-bold uppercase text-sm tracking-wider text-gray-700">
-//               Profile Information
-//             </h2>
-//           </div>
-
-//           <div className="grid md:grid-cols-2 gap-6">
-//             <div>
-//               <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">
-//                 Full Name
-//               </label>
-//               <input
-//                 type="text"
-//                 defaultValue="Arnisha Sarkar"
-//                 className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black transition-all text-sm font-medium text-black"
-//               />
-//             </div>
-//             <div>
-//               <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">
-//                 Email Address
-//               </label>
-//               <input
-//                 type="email"
-//                 defaultValue="arnisha.dev@example.com"
-//                 className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-400 text-sm font-medium cursor-not-allowed"
-//                 disabled
-//               />
-//             </div>
-//           </div>
-//         </section>
-
-//         {/* 2. Role and Security Section */}
-//         <section className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-6">
-//           <div className="flex items-center gap-3 border-b pb-4">
-//             <div className="p-2 bg-amber-50 rounded-lg text-amber-600">
-//               <Shield size={20} />
-//             </div>
-//             <h2 className="font-bold uppercase text-sm tracking-wider text-gray-700">
-//               Role & Permissions
-//             </h2>
-//           </div>
-
-//           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-//             <div>
-//               <p className="text-sm font-semibold text-gray-900">
-//                 Current Access Level
-//               </p>
-//               <p className="text-xs text-gray-500">
-//                 Your role is managed by the system administrator.
-//               </p>
-//             </div>
-//             <span className="px-4 py-1 bg-black text-white text-[10px] font-black uppercase rounded-full">
-//               {role}
-//             </span>
-//           </div>
-//         </section>
-
-//         {/* 3. Action Buttons */}
-//         <div className="flex items-center justify-end gap-4">
-//           <button className="px-6 py-3 rounded-2xl text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
-//             Discard
-//           </button>
-//           <button
-//             onClick={handleSave}
-//             className="px-8 py-3 bg-black text-white rounded-2xl text-sm font-bold shadow-lg hover:bg-gray-800 active:scale-95 transition-all"
-//           >
-//             Save Changes
-//           </button>
-//         </div>
-//       </div>
-
-//       {/* Danger Zone */}
-//       <div className="pt-8 border-t border-gray-100">
-//         <button
-//           onClick={handleSignOut}
-//           className="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-widest hover:bg-red-50 p-3 rounded-xl transition-all"
-//         >
-//           <LogOut size={16} />
-//           Sign Out from Device
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SettingsPage;
-
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { User, Shield, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
 
-const SettingsPage = () => {
-  const { role } = useDashboard();
+/**
+ * SettingsSkeleton Component
+ * Defined outside the main component to follow React best practices
+ * and avoid "Cannot create components during render" error.
+ */
+const SettingsSkeleton = () => (
+  <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 animate-pulse">
+    {/* Header Skeleton */}
+    <div className="space-y-3">
+      <div className="h-10 w-48 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+      <div className="h-4 w-64 bg-slate-100 dark:bg-slate-800 rounded"></div>
+    </div>
 
+    <div className="grid gap-6">
+      {/* Profile Card Skeleton */}
+      <section className="bg-card-bg p-6 rounded-[32px] border border-border-custom space-y-8">
+        <div className="flex items-center gap-3 border-b border-border-custom pb-4">
+          <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+          <div className="h-5 w-40 bg-slate-100 dark:bg-slate-800 rounded"></div>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="space-y-3">
+            <div className="h-3 w-20 bg-slate-100 dark:bg-slate-800 rounded"></div>
+            <div className="h-12 w-full bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+          </div>
+          <div className="space-y-3">
+            <div className="h-3 w-20 bg-slate-100 dark:bg-slate-800 rounded"></div>
+            <div className="h-12 w-full bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Role Card Skeleton */}
+      <section className="bg-card-bg p-6 rounded-[32px] border border-border-custom space-y-6">
+        <div className="flex items-center gap-3 border-b border-border-custom pb-4">
+          <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+          <div className="h-5 w-40 bg-slate-100 dark:bg-slate-800 rounded"></div>
+        </div>
+        <div className="h-20 w-full bg-slate-100 dark:bg-slate-800 rounded-2xl border border-dashed border-border-custom"></div>
+      </section>
+
+      {/* Buttons Skeleton */}
+      <div className="flex justify-end gap-4">
+        <div className="h-12 w-24 bg-slate-100 dark:bg-slate-800 rounded-2xl"></div>
+        <div className="h-12 w-36 bg-slate-200 dark:bg-slate-700 rounded-2xl"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const SettingsPage = () => {
+  // 1. All hooks must be declared at the very top
+  const { role } = useDashboard();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 2. Action Handlers
   const handleSave = () => {
     toast.success("Settings updated successfully!", {
       style: {
@@ -151,9 +80,16 @@ const SettingsPage = () => {
     toast.error("Sign out is disabled in demo mode.");
   };
 
+  /**
+   * 3. Conditional Return for Loading State
+   * Place this AFTER all hooks to follow the Rules of Hooks.
+   */
+  if (isLoading) return <SettingsSkeleton />;
+
+  // 4. Main UI Rendering
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 animate-in fade-in duration-500 bg-background text-foreground transition-colors duration-300">
-      {/* Page Header */}
+      {/* Section: Page Title and Description */}
       <div>
         <h1 className="text-3xl font-black text-foreground italic uppercase tracking-tight">
           Settings
@@ -164,7 +100,7 @@ const SettingsPage = () => {
       </div>
 
       <div className="grid gap-6">
-        {/* 1. Profile Section */}
+        {/* 1. Profile Information Section */}
         <section className="bg-card-bg p-6 rounded-[32px] border border-border-custom shadow-sm space-y-6 transition-all">
           <div className="flex items-center gap-3 border-b border-border-custom pb-4">
             <div className="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 dark:text-indigo-400">
@@ -200,7 +136,7 @@ const SettingsPage = () => {
           </div>
         </section>
 
-        {/* 2. Role and Security Section */}
+        {/* 2. Security & Role Section */}
         <section className="bg-card-bg p-6 rounded-[32px] border border-border-custom shadow-sm space-y-6 transition-all">
           <div className="flex items-center gap-3 border-b border-border-custom pb-4">
             <div className="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-amber-600 dark:text-amber-400">
@@ -240,7 +176,7 @@ const SettingsPage = () => {
         </div>
       </div>
 
-      {/* Danger Zone */}
+      {/* Section: Danger Zone */}
       <div className="pt-8 border-t border-border-custom">
         <button
           onClick={handleSignOut}

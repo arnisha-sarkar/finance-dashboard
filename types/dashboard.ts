@@ -1,12 +1,22 @@
 import { LucideIcon } from "lucide-react";
+import { TooltipProps } from "recharts";
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
+/**
+ * Summary Data: Represents the overall financial state.
+ */
 export interface SummaryData {
   totalBalance: number;
   totalIncome: number;
   totalExpense: number;
 }
 
-// SummaryCard er jonno interface
+/**
+ * Summary Card Props: Configuration for the top-level metric cards.
+ */
 export interface SummaryCardProps {
   label: string;
   value: number;
@@ -15,7 +25,9 @@ export interface SummaryCardProps {
   bgColor: string;
 }
 
-// src/types/dashboard.ts
+/**
+ * Chart Data Point: Structure for time-series balance data.
+ */
 export interface ChartDataPoint {
   date: string;
   balance: number;
@@ -26,13 +38,13 @@ export interface LineChartProps {
   title?: string;
 }
 
-// src/types/dashboard.ts
-// ... আগের টাইপগুলো থাকবে ...
-
+/**
+ * Expense Categories: Used for visual breakdown in charts.
+ */
 export interface ExpenseCategoryData {
-  name: string; // ক্যাটাগরির নাম (যেমন: 'Food')
-  value: number; // খরচের পরিমাণ
-  color: string; // এই ক্যাটাগরির জন্য নির্দিষ্ট রঙ
+  name: string;
+  value: number;
+  color: string;
 }
 
 export interface ExpensePieChartProps {
@@ -40,7 +52,15 @@ export interface ExpensePieChartProps {
   title?: string;
 }
 
-// src/types/dashboard.ts
+/**
+ * Custom Tooltip Props: Specifically for Recharts to avoid 'payload' or 'any' type errors.
+ * Using <any, any> is the most reliable way to let Recharts handle internal data points.
+ */
+export type CustomTooltipProps = TooltipProps<ValueType, NameType>;
+
+/**
+ * Transaction: Detailed structure for individual financial records.
+ */
 export interface Transaction {
   id: string | number;
   date: string;
@@ -49,7 +69,10 @@ export interface Transaction {
   type: "income" | "expense";
   description: string;
 }
-// interface for accounts
+
+/**
+ * Account: Represents linked bank or financial accounts.
+ */
 export interface Account {
   id: number;
   bankName: string;
@@ -61,7 +84,10 @@ export interface Account {
   color: string;
   icon: LucideIcon;
 }
-// interface for budget
+
+/**
+ * Budget: Defines spending limits and current usage per category.
+ */
 export interface Budget {
   id: number;
   category: string;

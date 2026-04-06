@@ -1,68 +1,71 @@
-// components/dashboard/TransactionTable/TableRows/TransactionRow.tsx
+"use client";
+
 import React from "react";
 import { Transaction } from "@/types/dashboard";
 import { ArrowUpRight, ArrowDownLeft } from "lucide-react";
 
-interface TransactionRowProps {
+interface Props {
   transaction: Transaction;
 }
 
-const TransactionRow = ({ transaction }: TransactionRowProps) => {
-  // Safety check: transaction বা type না থাকলে কিছুই রেন্ডার করবে না
-  if (!transaction || !transaction.type) return null;
-
-  const isIncome = transaction.type === "income";
+/**
+ * TransactionRow: Renders an individual row for the transaction table.
+ * Includes conditional styling and iconography based on transaction type (Income vs Expense).
+ */
+const TransactionRow = ({ transaction }: Props) => {
+  const isIncome = transaction.type?.toLowerCase() === "income";
 
   return (
-    <tr className="hover:bg-gray-50/80 transition-colors border-b border-gray-100 group">
-      {/* Date */}
-      <td className="p-4 text-sm text-gray-500 whitespace-nowrap">
-        {transaction.date}
+    /* Highlight row on hover with a subtle background shift for better scannability */
+    <tr className="group transition-all duration-200 hover:bg-slate-50 dark:hover:bg-white/5 cursor-default">
+      {/* Transaction Date Column */}
+      <td className="p-4">
+        <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
+          {transaction.date}
+        </span>
       </td>
 
-      {/* Description & Category (Mobile Optimized) */}
+      {/* Transaction Identity: Icon & Description */}
       <td className="p-4">
         <div className="flex items-center gap-3">
-          {/* Icon Section */}
+          {/* Status Indicator Icon with scale effect on row hover */}
           <div
-            className={`p-2 rounded-lg hidden sm:block ${
-              isIncome ? "bg-green-50 text-green-600" : "bg-red-50 text-red-600"
+            className={`p-2 rounded-xl transition-transform group-hover:scale-110 ${
+              isIncome
+                ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
+                : "bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400"
             }`}
           >
             {isIncome ? (
-              <ArrowUpRight size={16} />
+              <ArrowUpRight size={16} aria-label="Income" />
             ) : (
-              <ArrowDownLeft size={16} />
+              <ArrowDownLeft size={16} aria-label="Expense" />
             )}
           </div>
 
-          <div>
-            <div className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-              {transaction.description}
-            </div>
-            {/* Mobile View Category */}
-            <div className="text-[10px] text-gray-400 font-bold uppercase sm:hidden">
-              {transaction.category}
-            </div>
-          </div>
+          {/* Dynamic text color on hover to provide visual feedback */}
+          <span className="text-sm font-bold text-slate-900 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            {transaction.description}
+          </span>
         </div>
       </td>
 
-      {/* Category (Desktop only) */}
+      {/* Category Pill: Hidden on mobile to maintain clean UI */}
       <td className="p-4 hidden sm:table-cell">
-        <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold">
+        <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">
           {transaction.category}
         </span>
       </td>
 
-      {/* Amount Section */}
-      <td
-        className={`p-4 text-sm font-black text-right ${
-          isIncome ? "text-green-600" : "text-red-600"
-        }`}
-      >
-        {/* ?? 0 ব্যবহার করা হয়েছে যাতে amount undefined হলেও এরর না আসে */}
-        {isIncome ? "+" : "-"}${(transaction.amount ?? 0).toLocaleString()}
+      {/* Financial Amount: Color-coded by type with negative/positive prefixes */}
+      <td className="p-4 text-right">
+        <span
+          className={`text-sm font-black tracking-tight ${
+            isIncome ? "text-emerald-600" : "text-rose-600"
+          }`}
+        >
+          {isIncome ? "+" : "-"}${Math.abs(transaction.amount).toLocaleString()}
+        </span>
       </td>
     </tr>
   );
