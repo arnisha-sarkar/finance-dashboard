@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 Finance Dash - Interactive Dashboard
 
-## Getting Started
+Welcome to **Finance Flow**, a modern and intuitive dashboard designed to help users track their financial health effortlessly. This project was built with a focus on **clean UI, modular code, and real-time responsiveness.**
 
-First, run the development server:
+---
+
+## 🌟 What's Inside?
+
+I’ve built this dashboard to go beyond just displaying numbers. It’s about providing a clear story of your money.
+
+### 1. **Financial Overview**
+
+- **Smart Summary:** Instantly see your Total Balance, Income, and Expenses.
+- **Data Visualization:** A smooth, time-based Line Chart for balance trends and a Pie Chart for categorical spending.
+
+### 2. **Transaction Management**
+
+- **Live Search & Filter:** Quickly find any transaction by searching for descriptions or filtering by type (Income/Expense).
+- **Seamless Interaction:** Add new transactions via a modern, animated modal that provides instant toast notifications.
+
+### 3. **Smart Insights (The "Aha!" Moment)**
+
+- **Automated Analysis:** The system identifies your highest spending category automatically.
+- **Saving Tips:** Includes logic-driven observations to help users save more.
+
+### 4. **Role-Based Experience (RBAC Simulation)**
+
+- **Switch Roles:** Easily toggle between **Admin** and **Viewer** mode.
+- **Dynamic UI:** Admins have full control to add transactions, while Viewers have a "read-only" clean experience.
+
+---
+
+## 🛠️ My Approach & Technical Choices
+
+When I started this project, I had three goals: **Simplicity, Scalability, and Speed.**
+
+- **Next.js 15 & TypeScript:** I chose the latest Next.js for its robust routing and TypeScript to ensure my code is bug-free and easy to maintain.
+- **State Management:** I used the **React Context API**. Since the dashboard is self-contained, Context provided a lightweight yet powerful way to sync data between the charts, table, and role-switcher.
+- **Theming (Dark Mode):** I implemented a custom theme provider using CSS variables. This ensures the UI feels premium and reduces eye strain at night.
+- **Performance:** I used `useMemo` for heavy data filtering and handled React render cycles carefully to ensure the app stays snappy even as data grows.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) installed.
+
+### 2. Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
